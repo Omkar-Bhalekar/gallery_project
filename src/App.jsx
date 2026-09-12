@@ -7,18 +7,18 @@ function App() {
   const [index , setIndex] = useState(2);
 
   const getData = async  ()=>{
-    const response = await axios.get(`https://picsum.photos/v2/list?page=${index}&limit=15`);
+    const response = await axios.get(`https://picsum.photos/v2/list?page=${index}&limit=10`);
     setUserData(response.data);
   }
 
 
-  let printUserData = "No Data Available";
+  let printUserData = <h3 className='text-xl  absolute text-white -translate-x-1/2 -translate-y-1/2  top-1/2 left-1/2'>Loading...</h3>
 
   if(userData.length > 0){
     printUserData = userData.map((e,index)=>{
       return (
 
-        <div className='m-2' key={index}>
+        <div className='mx-4' key={index}>
           <a href={e.url} target='_blank'>
           <img className='h-64 w-60 rounded-b-none rounded' src={e.download_url}></img>
           <h2 className='text-center text-white text-sm  rounded-t-none rounded'>{e.author}</h2>
@@ -50,6 +50,7 @@ function App() {
           onClick={()=>{
             if(index > 1){
               setIndex(prev => prev - 1)
+              setUserData([])
             }
           }}
           className='bg-amber-500 rounded text-black font-medium text-sm h-10 w-20'>
@@ -57,7 +58,10 @@ function App() {
           </button>
           <h1 className='text-white font-semibold mt-2'>Page {index}</h1>
           <button
-          onClick={()=>{setIndex(prev => prev + 1)}}
+          onClick={()=>{
+            setIndex(prev => prev + 1);
+            setUserData([]);
+          }}
           className='bg-amber-500 rounded text-black font-medium text-sm h-10 w-20'>
             Next
           </button>
